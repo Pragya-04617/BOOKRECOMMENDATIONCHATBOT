@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BookBeacon – Your Book Buddy</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f3e5f5, #ffffff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      color: #4e342e;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 1.3rem;
+      max-width: 700px;
+      margin-bottom: 1.5rem;
+    }
+
+    .highlight {
+      color: #8e24aa;
+      font-weight: bold;
+    }
+
+    .chat-launch-info {
+      font-size: 1rem;
+      color: #6d4c41;
+    }
+
+    .logo {
+      width: 100px;
+      height: auto;
+      margin-bottom: 1.5rem;
+    }
+
+    .book-image {
+      width: 260px;
+      margin-top: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <img src="https://cdn-icons-png.flaticon.com/512/3185/3185003.png" alt="BookBeacon Logo" class="logo">
+  <h1>📘 Welcome to <span class="highlight">BookBeacon</span></h1>
+  <p>Your cozy corner for discovering your next favorite book. Let our friendly AI assistant guide you through genres, moods, and recommendations you'll love. 💜</p>
+  <p class="chat-launch-info">The chat assistant will appear shortly in the bottom-right corner. 👇</p>
+  <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=800&q=80" alt="Books and Tea" class="book-image">
+
+  <!-- Watson Assistant Chatbot -->
+  <script>
+    window.watsonAssistantChatOptions = {
+      integrationID: "295dea75-e5b5-4285-b608-6082e156a6fd", // The ID of this integration.
+      region: "au-syd", // The region your integration is hosted in.
+      serviceInstanceID: "6aef08d9-3d6d-4187-8352-2126095520a4", // The ID of your service instance.
+      onLoad: async (instance) => { await instance.render(); }
+    };
+    setTimeout(function(){
+      const t = document.createElement('script');
+      t.src = "https://web-chat.global.assistant.watson.appdomain.cloud/versions/" +
+              (window.watsonAssistantChatOptions.clientVersion || 'latest') +
+              "/WatsonAssistantChatEntry.js";
+      document.head.appendChild(t);
+    });
+  </script>
+</body>
+</html>
