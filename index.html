@@ -5,77 +5,313 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BookBeacon – Your Book Buddy</title>
   <style>
+    :root {
+      --bg-color: #fdf6e3;
+      --text-color: #3e2723;
+      --card-bg: #fff9f0;
+      --card-shadow: rgba(205, 155, 99, 0.15);
+    }
+
+    body.dark {
+      --bg-color: #1e1e1e;
+      --text-color: #f5f5f5;
+      --card-bg: #2c2c2c;
+      --card-shadow: rgba(255, 255, 255, 0.1);
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #f3e5f5, #ffffff);
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    header {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       text-align: center;
+      flex-wrap: wrap;
       color: #4e342e;
+      flex-wrap: wrap;
+    }
+
+    .header-title {
+      font-size: 1.8rem;
+      margin: 0;
+    }
+
+    .header-subtitle {
+      font-size: 0.95rem;
+      color: #a76d4d;
+      margin-top: 4px;
+    }
+
+    .left-header {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .theme-toggle {
+      cursor: pointer;
+      font-size: 1rem;
+      background: #f4e2d8;
+      border: 2px solid var(--text-color);
+      border-radius: 25px;
+      padding: 0.4rem 1rem;
+      color: var(--text-color);
+      transition: background 0.3s;
+    }
+
+    .theme-toggle:hover {
+      background: #e7cfc2;
+    }
+
+    main {
       padding: 2rem;
     }
 
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
+    .book-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
     }
 
-    p {
-      font-size: 1.3rem;
-      max-width: 700px;
-      margin-bottom: 1.5rem;
+    .book-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 4px 10px var(--card-shadow);
+      padding: 1rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeSlideUp 0.6s ease forwards;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .highlight {
-      color: #8e24aa;
-      font-weight: bold;
+    .book-card:hover {
+      transform: translateY(0) scale(1.03);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
     }
 
-    .chat-launch-info {
-      font-size: 1rem;
-      color: #6d4c41;
-    }
-
-    .logo {
-      width: 100px;
-      height: auto;
-      margin-bottom: 1.5rem;
+    body.dark .book-card:hover {
+      box-shadow: 0 12px 24px rgba(255, 255, 255, 0.15);
     }
 
     .book-image {
-      width: 260px;
-      margin-top: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    .book-title {
+      font-weight: bold;
+      margin: 0.5rem 0 0.2rem;
+    }
+
+    .book-author {
+      font-style: italic;
+      font-size: 0.9rem;
+    }
+
+    .book-rating {
+      color: goldenrod;
+      margin: 0.3rem 0;
+    }
+
+    .book-desc {
+      font-size: 0.85rem;
+      margin-top: 0.4rem;
+    }
+
+    .load-more {
+      text-align: center;
+      padding-bottom: 2rem;
+    }
+
+    .load-btn {
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 25px;
+      border: none;
+      background: #c77f58;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .load-btn:hover {
+      background: #a55f3c;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
-<body>
-  <img src="https://cdn-icons-png.flaticon.com/512/3185/3185003.png" alt="BookBeacon Logo" class="logo">
-  <h1>📘 Welcome to <span class="highlight">BookBeacon</span></h1>
-  <p>Your cozy corner for discovering your next favorite book. Let our friendly AI assistant guide you through genres, moods, and recommendations you'll love. 💜</p>
-  <p class="chat-launch-info">The chat assistant will appear shortly in the bottom-right corner. 👇</p>
-  <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=800&q=80" alt="Books and Tea" class="book-image">
 
-  <!-- Watson Assistant Chatbot -->
+<body>
+  <header>
+    <div class="left-header">
+      <h1 class="header-title">📚 BookBeacon</h1>
+      <div class="header-subtitle">Your cozy corner for literary gems ✨</div>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">🌗 Toggle Theme</button>
+  </header>
+
+  <main>
+    <div class="book-list" id="bookList"></div>
+    <div class="load-more">
+      <button class="load-btn" onclick="loadMoreBooks()">Load More</button>
+    </div>
+  </main>
+
   <script>
-    window.watsonAssistantChatOptions = {
-      integrationID: "295dea75-e5b5-4285-b608-6082e156a6fd", // The ID of this integration.
-      region: "au-syd", // The region your integration is hosted in.
-      serviceInstanceID: "6aef08d9-3d6d-4187-8352-2126095520a4", // The ID of your service instance.
-      onLoad: async (instance) => { await instance.render(); }
-    };
-    setTimeout(function(){
-      const t = document.createElement('script');
-      t.src = "https://web-chat.global.assistant.watson.appdomain.cloud/versions/" +
-              (window.watsonAssistantChatOptions.clientVersion || 'latest') +
-              "/WatsonAssistantChatEntry.js";
-      document.head.appendChild(t);
-    });
+    const books = [
+      {
+        title: "The Alchemist",
+        author: "Paulo Coelho",
+        image: "https://images-na.ssl-images-amazon.com/images/I/51Z0nLAfLmL.jpg",
+        rating: 5,
+        desc: "A mystical story of a shepherd boy’s journey to discover his personal legend."
+      },
+      {
+        title: "Atomic Habits",
+        author: "James Clear",
+        image: "https://images-na.ssl-images-amazon.com/images/I/91bYsX41DVL.jpg",
+        rating: 5,
+        desc: "A practical guide to breaking bad habits and forming good ones."
+      },
+      {
+        title: "To Kill a Mockingbird",
+        author: "Harper Lee",
+        image: "https://images-na.ssl-images-amazon.com/images/I/81OthjkJBuL.jpg",
+        rating: 5,
+        desc: "A powerful story on racial injustice and childhood in the Deep South."
+      },
+      {
+        title: "1984",
+        author: "George Orwell",
+        image: "https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg",
+        rating: 4,
+        desc: "A dystopian tale of totalitarian surveillance and mind control."
+      },
+      {
+        title: "The White Tiger",
+        author: "Aravind Adiga",
+        image: "https://tse2.mm.bing.net/th/id/OIP.Y2Iqp4E7euY2BwkKs08aIwAAAA?pid=Api&P=0&h=220",
+        rating: 4,
+        desc: "A darkly comic and gritty tale of a poor Indian chauffeur who breaks free from his class constraints."
+      },
+      {
+        title: "Pride and Prejudice",
+        author: "Jane Austen",
+        image: "https://tse3.mm.bing.net/th/id/OIP.HWd6TKsH7PPFLykVNeqrzQHaLX?pid=Api&P=0&h=220",
+        rating: 5,
+        desc: "A classic romantic novel exploring manners and marriage in 19th century England."
+      },
+      {
+        title: "Train to Pakistan",
+        author: "Khushwant Singh",
+        image: "https://tse3.mm.bing.net/th/id/OIP.WL5ywNwni4ZsOymcgk0T0QAAAA?pid=Api&P=0&h=220",
+        rating: 5,
+        desc: "A poignant novel that captures the brutality and humanity during the Partition of India in 1947."
+      },
+      {
+        title: "The Power of Now",
+        author: "Eckhart Tolle",
+        image: "https://m.media-amazon.com/images/I/71uAI28kJuL.jpg",
+        rating: 4,
+        desc: "A spiritual guide to living fully in the present moment."
+      },
+      {
+        title: "Rich Dad Poor Dad",
+        author: "Robert Kiyosaki",
+        image: "https://m.media-amazon.com/images/I/81bsw6fnUiL.jpg",
+        rating: 4,
+        desc: "Personal finance lessons told through the lens of two fathers."
+      },
+      {
+        title: "The Monk Who Sold His Ferrari",
+        author: "Robin Sharma",
+        image: "https://m.media-amazon.com/images/I/61Iz2yy2CKL.jpg",
+        rating: 4,
+        desc: "A fable about achieving true success and enlightenment."
+      },
+      {
+        title: "The Innocent Man",
+        author: "John Grisham",
+        image: "https://tse2.mm.bing.net/th/id/OIP.IEjyrX89qfmxHRGCRxyxpQHaLV?pid=Api&P=0&h=220",
+        rating: 4,
+        desc: "A true story about a man wrongly convicted and nearly executed for a crime he didn’t commit."
+      },
+      {
+        title: "The Book Thief",
+        author: "Markus Zusak",
+        image: "https://tse3.mm.bing.net/th/id/OIP.YjcEFIps2gWWd0trU11HmwHaLj?pid=Api&P=0&h=220",
+        rating: 5,
+        desc: "A powerful story narrated by Death, following a young girl in Nazi Germany who finds solace in books."
+      }
+    ];
+
+    let booksDisplayed = 0;
+    const booksPerPage = 6;
+
+    function renderBooks() {
+      const list = document.getElementById('bookList');
+      const nextBooks = books.slice(booksDisplayed, booksDisplayed + booksPerPage);
+      nextBooks.forEach((book, index) => {
+        const card = document.createElement('div');
+        card.className = 'book-card';
+        card.style.animationDelay = `${index * 100}ms`;
+        card.innerHTML = `
+          <img src="${book.image}" alt="${book.title}" class="book-image" loading="lazy">
+          <div class="book-title">${book.title}</div>
+          <div class="book-author">by ${book.author}</div>
+          <div class="book-rating">${'★'.repeat(book.rating)}${'☆'.repeat(5 - book.rating)}</div>
+          <div class="book-desc">${book.desc}</div>
+        `;
+        list.appendChild(card);
+      });
+      booksDisplayed += booksPerPage;
+      if (booksDisplayed >= books.length) {
+        document.querySelector('.load-more').style.display = 'none';
+      }
+    }
+
+    function loadMoreBooks() {
+      renderBooks();
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+    }
+
+    renderBooks();
   </script>
+
+  <!-- Watson Assistant Embed -->
+ <script>
+  window.watsonAssistantChatOptions = {
+    integrationID: "295dea75-e5b5-4285-b608-6082e156a6fd", // The ID of this integration.
+    region: "au-syd", // The region your integration is hosted in.
+    serviceInstanceID: "6aef08d9-3d6d-4187-8352-2126095520a4", // The ID of your service instance.
+    onLoad: async (instance) => { await instance.render(); }
+  };
+  setTimeout(function(){
+    const t=document.createElement('script');
+    t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+    document.head.appendChild(t);
+  });
+</script>
 </body>
 </html>
