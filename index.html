@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BookBeacon – Your Book Buddy</title>
   <style>
     :root {
@@ -21,21 +21,19 @@
 
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f3e5f5, #ffffff);
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg-color);
       color: var(--text-color);
       transition: background 0.3s, color 0.3s;
     }
 
     header {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
-      flex-wrap: wrap;
-      color: #4e342e;
+      padding: 1.2rem 2rem;
+      background: var(--card-bg);
+      box-shadow: 0 2px 6px var(--card-shadow);
       flex-wrap: wrap;
     }
 
@@ -315,3 +313,4 @@
 </script>
 </body>
 </html>
+
