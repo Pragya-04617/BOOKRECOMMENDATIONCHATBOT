@@ -1,37 +1,27 @@
-# 📚 Book Recommendation Chatbot – BookBeacon
+# 📚 BookBeacon – Book Recommendation Chatbot  
 
-Welcome to **BookBeacon**, your cozy AI-powered book buddy! This web-based chatbot helps users discover their next favorite read by providing personalized book recommendations based on **genre**, **mood**, and **preferences**.
+**BookBeacon** is a modern, responsive book recommendation web app with an integrated **IBM Watson Assistant Chatbot** for interactive support.  
+It displays popular books with ratings, author details, and descriptions in a clean UI, with features like **Dark Mode**, **Load More**, and mobile-friendly design.  
 
-🌐 [Visit the live site →](https://pragya-04617.github.io/BOOKRECOMMENDATIONCHATBOT/)
-
----
-
-## 💡 Features
-
-- 🤖 Powered by **IBM Watson Assistant**
-- 📘 Genre-based recommendations
-- ✨ Friendly, cozy UI with a soft bookish aesthetic
-- 🧠 AI conversation with natural fallback handling
-- 🔗 Easily embeddable and customizable
+🌐 **Live Website:** [Click Here](https://pragya-04617.github.io/BOOKRECOMMENDATIONCHATBOT/)  
 
 ---
 
-## 🛠️ Technologies Used
-
-- **HTML5**, **CSS3** – Static front-end design
-- **IBM Watson Assistant** – For AI chatbot functionality
-- **JavaScript** – To embed the chatbot dynamically
-
----
-
-## 🚀 How It Works
-
-The chatbot appears automatically on the page and can interact with users to recommend books based on:
-- Genre (e.g., Fantasy, Thriller)
-- Author or preferences
-
-IBM Watson Assistant handles user queries and provides suitable replies or book suggestions.
+## 🌟 Features  
+✔ Interactive **Book Cards** – Title, Author, Rating, Description  
+✔ **Dark Mode Toggle** 🌗  
+✔ **Load More** button for pagination  
+✔ **IBM Watson Assistant Chatbot** integration 🤖  
+✔ **Responsive Layout** for all devices  
+✔ Hosted on **GitHub Pages**  
 
 ---
 
+## 🖥️ Tech Stack  
+- **HTML5** – Structure  
+- **CSS3** – Styling  
+- **JavaScript (ES6)** – Dynamic rendering  
+- **IBM Watson Assistant** – Chatbot Integration  
+- **GitHub Pages** – Hosting  
 
+---
