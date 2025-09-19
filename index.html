@@ -4,45 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BookBeacon – Your Book Buddy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
-    :root {
-      --bg-color: #fdf6e3;
-      --text-color: #3e2723;
-      --card-bg: #fff9f0;
-      --card-shadow: rgba(205, 155, 99, 0.15);
-    }
-
-    body.dark {
-      --bg-color: #1e1e1e;
-      --text-color: #f5f5f5;
-      --card-bg: #2c2c2c;
-      --card-shadow: rgba(255, 255, 255, 0.1);
-    }
-
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #f3e5f5, #ffffff);
-      color: var(--text-color);
-      transition: background 0.3s, color 0.3s;
+      color: #3e2723;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
-    /* ✅ Attractive Header */
+    /* Header */
     header {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
+      flex-direction: column;
       padding: 1rem 2rem;
       background: linear-gradient(90deg, #f3e5f5, #fff0e6);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
       position: sticky;
       top: 0;
       z-index: 10;
-    }
-
-    .header-left {
-      display: flex;
-      flex-direction: column;
+      text-align: center;
     }
 
     .header-title {
@@ -57,29 +44,10 @@
       color: #a76d4d;
     }
 
-    .header-right {
-      display: flex;
-      align-items: center;
-    }
-
-    .theme-toggle {
-      cursor: pointer;
-      font-size: 1rem;
-      background: #f4e2d8;
-      border: 2px solid var(--text-color);
-      border-radius: 25px;
-      padding: 0.4rem 1rem;
-      color: var(--text-color);
-      transition: background 0.3s;
-    }
-
-    .theme-toggle:hover {
-      background: #e7cfc2;
-    }
-
-    /* ✅ Book List Section */
+    /* Book List Section */
     main {
       padding: 2rem;
+      flex: 1;
     }
 
     .book-list {
@@ -89,12 +57,11 @@
     }
 
     .book-card {
-      background: var(--card-bg);
+      background: #fff9f0;
       border-radius: 16px;
-      box-shadow: 0 4px 10px var(--card-shadow);
+      box-shadow: 0 4px 10px rgba(205, 155, 99, 0.15);
       padding: 1rem;
-      opacity: 1;
-      transform: translateY(0);
+      text-align: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
@@ -109,114 +76,181 @@
     .book-rating { color: goldenrod; margin: 0.3rem 0; }
     .book-desc { font-size: 0.85rem; margin-top: 0.4rem; }
 
-    .load-more { text-align: center; padding-bottom: 2rem; }
-    .load-btn {
-      padding: 0.6rem 1.5rem;
-      font-size: 1rem;
-      border-radius: 25px;
-      border: none;
-      background: #c77f58;
-      color: #fff;
-      cursor: pointer;
-      transition: background 0.3s;
+    /* Footer */
+    footer {
+      background: linear-gradient(90deg, #fff0e6, #f3e5f5);
+      text-align: center;
+      padding: 1rem;
+      box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
     }
-    .load-btn:hover { background: #a55f3c; }
 
-    /* ✅ Responsive Header for Mobile */
+    .footer-text {
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      color: #6a1b9a;
+      font-weight: bold;
+    }
+
+    .social-icons {
+      margin-top: 0.5rem;
+    }
+
+    .social-icons a {
+      display: inline-block;
+      margin: 0 10px;
+      text-decoration: none;
+      color: #6a1b9a;
+      font-size: 1.6rem;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      transform: scale(1.2);
+      color: #a76d4d;
+    }
+
+    /* Responsive */
     @media (max-width: 600px) {
-      header {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.5rem;
+      .book-list {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       }
-      .header-right {
-        justify-content: center;
+      .header-title {
+        font-size: 1.6rem;
       }
     }
   </style>
 </head>
 <body>
-  <!-- ✅ Attractive Header -->
   <header>
-    <div class="header-left">
-      <h1 class="header-title">📚 BookBeacon</h1>
-      <div class="header-subtitle">Your cozy corner for literary gems ✨</div>
-    </div>
-    <div class="header-right">
-      <button class="theme-toggle" onclick="toggleTheme()">🌗 Toggle Theme</button>
-    </div>
+    <h1 class="header-title">📚 BookBeacon</h1>
+    <div class="header-subtitle">Your cozy corner for literary gems ✨</div>
   </header>
 
   <main>
-    <div class="book-list" id="bookList"></div>
-    <div class="load-more">
-      <button class="load-btn" onclick="loadMoreBooks()">Load More</button>
+    <div class="book-list">
+      <!-- ✅ First 12 books only -->
+      <div class="book-card">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/51Z0nLAfLmL.jpg" alt="The Alchemist" class="book-image">
+        <div class="book-title">The Alchemist</div>
+        <div class="book-author">by Paulo Coelho</div>
+        <div class="book-rating">★★★★★</div>
+        <div class="book-desc">A mystical story of a shepherd boy’s journey to discover his personal legend.</div>
+      </div>
+
+      <div class="book-card">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/91bYsX41DVL.jpg" alt="Atomic Habits" class="book-image">
+        <div class="book-title">Atomic Habits</div>
+        <div class="book-author">by James Clear</div>
+        <div class="book-rating">★★★★★</div>
+        <div class="book-desc">A practical guide to breaking bad habits and forming good ones.</div>
+      </div>
+
+      <div class="book-card">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/81OthjkJBuL.jpg" alt="To Kill a Mockingbird" class="book-image">
+        <div class="book-title">To Kill a Mockingbird</div>
+        <div class="book-author">by Harper Lee</div>
+        <div class="book-rating">★★★★★</div>
+        <div class="book-desc">A powerful story on racial injustice and childhood in the Deep South.</div>
+      </div>
+
+      <div class="book-card">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg" alt="1984" class="book-image">
+        <div class="book-title">1984</div>
+        <div class="book-author">by George Orwell</div>
+        <div class="book-rating">★★★★☆</div>
+        <div class="book-desc">A dystopian tale of totalitarian surveillance and mind control.</div>
+      </div>
+
+      <div class="book-card">
+        <img src="https://tse2.mm.bing.net/th/id/OIP.Y2Iqp4E7euY2BwkKs08aIwAAAA?pid=Api&P=0&h=220" alt="The White Tiger" class="book-image">
+        <div class="book-title">The White Tiger</div>
+        <div class="book-author">by Aravind Adiga</div>
+        <div class="book-rating">★★★★☆</div>
+        <div class="book-desc">A gritty tale of an Indian chauffeur breaking free from his class constraints.</div>
+      </div>
+
+      <div class="book-card">
+        <img src="https://tse3.mm.bing.net/th/id/OIP.HWd6TKsH7PPFLykVNeqrzQHaLX?pid=Api&P=0&h=220" alt="Pride and Prejudice" class="book-image">
+        <div class="book-title">Pride and Prejudice</div>
+        <div class="book-author">by Jane Austen</div>
+        <div class="book-rating">★★★★★</div>
+        <div class="book-desc">A classic romantic novel exploring manners and marriage in 19th century England.</div>
+      </div>
+
+      <div class="book-card">
+        <img src="https://tse3.mm.bing.net/th/id/OIP.WL5ywNwni4ZsOymcgk0T0QAAAA?pid=Api&P=0&h=220" alt="Train to Pakistan" class="book-image">
+        <div class="book-title">Train to Pakistan</div>
+        <div class="book-author">by Khushwant Singh</div>
+        <div class="book-rating">★★★★★</div>
+        <div class="book-desc">Captures the brutality and humanity during the Partition of India in 1947.</div>
+      </div>
+
+      <div class="book-card">
+        <img src="https://m.media-amazon.com/images/I/71uAI28kJuL.jpg" alt="The Power of Now" class="book-image">
+        <div class="book-title">The Power of Now</div>
+        <div class="book-author">by Eckhart Tolle</div>
+        <div class="book-rating">★★★★☆</div>
+        <div class="book-desc">A spiritual guide to living fully in the present moment.</div>
+      </div>
+
+      <div class="book-card">
+        <img src="https://m.media-amazon.com/images/I/81bsw6fnUiL.jpg" alt="Rich Dad Poor Dad" class="book-image">
+        <div class="book-title">Rich Dad Poor Dad</div>
+        <div class="book-author">by Robert Kiyosaki</div>
+        <div class="book-rating">★★★★☆</div>
+        <div class="book-desc">Personal finance lessons told through the lens of two fathers.</div>
+      </div>
+
+      <div class="book-card">
+        <img src="https://m.media-amazon.com/images/I/61Iz2yy2CKL.jpg" alt="The Monk Who Sold His Ferrari" class="book-image">
+        <div class="book-title">The Monk Who Sold His Ferrari</div>
+        <div class="book-author">by Robin Sharma</div>
+        <div class="book-rating">★★★★☆</div>
+        <div class="book-desc">A fable about achieving true success and enlightenment.</div>
+      </div>
+
+      <div class="book-card">
+        <img src="https://tse2.mm.bing.net/th/id/OIP.IEjyrX89qfmxHRGCRxyxpQHaLV?pid=Api&P=0&h=220" alt="The Innocent Man" class="book-image">
+        <div class="book-title">The Innocent Man</div>
+        <div class="book-author">by John Grisham</div>
+        <div class="book-rating">★★★★☆</div>
+        <div class="book-desc">A true story of wrongful conviction and the fight for justice.</div>
+      </div>
+
+      <div class="book-card">
+        <img src="https://tse3.mm.bing.net/th/id/OIP.YjcEFIps2gWWd0trU11HmwHaLj?pid=Api&P=0&h=220" alt="The Book Thief" class="book-image">
+        <div class="book-title">The Book Thief</div>
+        <div class="book-author">by Markus Zusak</div>
+        <div class="book-rating">★★★★★</div>
+        <div class="book-desc">A story narrated by Death about a young girl in Nazi Germany who finds solace in books.</div>
+      </div>
     </div>
   </main>
 
-  <script defer>
-    document.addEventListener("DOMContentLoaded", () => {
-      const books = [
-        { title: "The Alchemist", author: "Paulo Coelho", image: "https://images-na.ssl-images-amazon.com/images/I/51Z0nLAfLmL.jpg", rating: 5, desc: "A mystical story of a shepherd boy’s journey to discover his personal legend." },
-        { title: "Atomic Habits", author: "James Clear", image: "https://images-na.ssl-images-amazon.com/images/I/91bYsX41DVL.jpg", rating: 5, desc: "A practical guide to breaking bad habits and forming good ones." },
-        { title: "To Kill a Mockingbird", author: "Harper Lee", image: "https://images-na.ssl-images-amazon.com/images/I/81OthjkJBuL.jpg", rating: 5, desc: "A powerful story on racial injustice and childhood in the Deep South." },
-        { title: "1984", author: "George Orwell", image: "https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg", rating: 4, desc: "A dystopian tale of totalitarian surveillance and mind control." },
-        { title: "The White Tiger", author: "Aravind Adiga", image: "https://tse2.mm.bing.net/th/id/OIP.Y2Iqp4E7euY2BwkKs08aIwAAAA?pid=Api&P=0&h=220", rating: 4, desc: "A darkly comic and gritty tale of a poor Indian chauffeur who breaks free from his class constraints." },
-        { title: "Pride and Prejudice", author: "Jane Austen", image: "https://tse3.mm.bing.net/th/id/OIP.HWd6TKsH7PPFLykVNeqrzQHaLX?pid=Api&P=0&h=220", rating: 5, desc: "A classic romantic novel exploring manners and marriage in 19th century England." },
-        { title: "Train to Pakistan", author: "Khushwant Singh", image: "https://tse3.mm.bing.net/th/id/OIP.WL5ywNwni4ZsOymcgk0T0QAAAA?pid=Api&P=0&h=220", rating: 5, desc: "A poignant novel that captures the brutality and humanity during the Partition of India in 1947." },
-        { title: "The Power of Now", author: "Eckhart Tolle", image: "https://m.media-amazon.com/images/I/71uAI28kJuL.jpg", rating: 4, desc: "A spiritual guide to living fully in the present moment." },
-        { title: "Rich Dad Poor Dad", author: "Robert Kiyosaki", image: "https://m.media-amazon.com/images/I/81bsw6fnUiL.jpg", rating: 4, desc: "Personal finance lessons told through the lens of two fathers." },
-        { title: "The Monk Who Sold His Ferrari", author: "Robin Sharma", image: "https://m.media-amazon.com/images/I/61Iz2yy2CKL.jpg", rating: 4, desc: "A fable about achieving true success and enlightenment." },
-        { title: "The Innocent Man", author: "John Grisham", image: "https://tse2.mm.bing.net/th/id/OIP.IEjyrX89qfmxHRGCRxyxpQHaLV?pid=Api&P=0&h=220", rating: 4, desc: "A true story about a man wrongly convicted and nearly executed for a crime he didn’t commit." },
-        { title: "The Book Thief", author: "Markus Zusak", image: "https://tse3.mm.bing.net/th/id/OIP.YjcEFIps2gWWd0trU11HmwHaLj?pid=Api&P=0&h=220", rating: 5, desc: "A powerful story narrated by Death, following a young girl in Nazi Germany who finds solace in books." }
-      ];
-
-      let booksDisplayed = 0;
-      const booksPerPage = 6;
-      const list = document.getElementById('bookList');
-
-      function renderBooks() {
-        const nextBooks = books.slice(booksDisplayed, booksDisplayed + booksPerPage);
-        nextBooks.forEach((book) => {
-          const card = document.createElement('div');
-          card.className = 'book-card';
-          card.innerHTML = `
-            <img src="${book.image}" alt="${book.title}" class="book-image" loading="lazy">
-            <div class="book-title">${book.title}</div>
-            <div class="book-author">by ${book.author}</div>
-            <div class="book-rating">${'★'.repeat(book.rating)}${'☆'.repeat(5 - book.rating)}</div>
-            <div class="book-desc">${book.desc}</div>
-          `;
-          list.appendChild(card);
-        });
-        booksDisplayed += booksPerPage;
-        if (booksDisplayed >= books.length) {
-          document.querySelector('.load-more').style.display = 'none';
-        }
-      }
-
-      window.loadMoreBooks = renderBooks;
-      window.toggleTheme = () => document.body.classList.toggle('dark');
-
-      renderBooks();
-    });
-  </script>
-
-  <!-- ✅ Watson Assistant -->
+  <footer>
+    <p class="footer-text">Follow us on Social Media</p>
+    <div class="social-icons">
+      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+      <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+  </footer>
+  <!-- Watson Assistant -->
   <script>
-    window.watsonAssistantChatOptions = {
-      integrationID: "295dea75-e5b5-4285-b608-6082e156a6fd",
-      region: "au-syd",
-      serviceInstanceID: "6aef08d9-3d6d-4187-8352-2126095520a4",
-      onLoad: async (instance) => { await instance.render(); }
-    };
-    setTimeout(function(){
-      const t=document.createElement('script');
-      t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + 
-            (window.watsonAssistantChatOptions.clientVersion || 'latest') + 
-            "/WatsonAssistantChatEntry.js";
-      document.head.appendChild(t);
-    });
-  </script>
+  window.watsonAssistantChatOptions = {
+    integrationID: "295dea75-e5b5-4285-b608-6082e156a6fd", 
+    region: "au-syd", 
+    serviceInstanceID: "6aef08d9-3d6d-4187-8352-2126095520a4",
+    onLoad: function(instance) { 
+      instance.render();      
+      
+    }
+  };
+  const t=document.createElement('script');
+  t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + 
+        (window.watsonAssistantChatOptions.clientVersion || 'latest') + 
+        "/WatsonAssistantChatEntry.js";
+  document.head.appendChild(t);
+</script>
 </body>
 </html>
