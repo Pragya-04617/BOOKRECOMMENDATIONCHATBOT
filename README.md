@@ -8,9 +8,7 @@ It displays popular books with ratings, author details, and descriptions in a cl
 ---
 
 ## 🌟 Features  
-✔ Interactive **Book Cards** – Title, Author, Rating, Description  
-✔ **Dark Mode Toggle** 🌗  
-✔ **Load More** button for pagination  
+✔ Interactive **Book Cards** – Title, Author, Rating, Description   
 ✔ **IBM Watson Assistant Chatbot** integration 🤖  
 ✔ **Responsive Layout** for all devices  
 ✔ Hosted on **GitHub Pages**  
@@ -20,7 +18,6 @@ It displays popular books with ratings, author details, and descriptions in a cl
 ## 🖥️ Tech Stack  
 - **HTML5** – Structure  
 - **CSS3** – Styling  
-- **JavaScript (ES6)** – Dynamic rendering  
 - **IBM Watson Assistant** – Chatbot Integration  
 - **GitHub Pages** – Hosting  
 
